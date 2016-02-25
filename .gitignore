@@ -62,3 +62,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /bin/
+.settings/org.eclipse.jdt.core.prefs
+miglayout-src.zip
