@@ -1,5 +1,6 @@
 package com.watring.derek.mtgcardpricing;
 
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 public class GUI extends WebFrame implements FocusListener, KeyListener{
 	private static final long serialVersionUID = 1L;
 	
+	//Class Components
 	private JPanel contentPane;
 	private static JTextField textField;
 	static WebImage img;
@@ -36,16 +38,23 @@ public class GUI extends WebFrame implements FocusListener, KeyListener{
 	static WebScrollPane scrollPane;
 	static WebPanel panel;
 	static WebSpinner multiplier;
-	static int count = 0;
+	static WebLabel total;
+	
+	static int count = 0; //Number of textfields displayed
 	@SuppressWarnings("rawtypes")
 	private HashMap componentMap;
-	static WebLabel total;
 
 	/**
-	 * Create the frame.
+	 * Create the frame and class components
 	 */
 	public GUI() {
 		setResizable(false);
+		/*
+		MenuBar mb = new MenuBar();
+		this.setMenuBar(mb);
+		Menu m = new Menu();
+		mb.add(m);
+		*/
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 720, 500);
 		contentPane = new JPanel();
@@ -86,7 +95,7 @@ public class GUI extends WebFrame implements FocusListener, KeyListener{
 		
 		textField = new WebTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
-		textField.setText("endbringer");
+		textField.setText("1 endbringer");
 		gbc_textField.gridwidth = 2;
 		gbc_textField.insets = new Insets(5, 5, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -106,6 +115,11 @@ public class GUI extends WebFrame implements FocusListener, KeyListener{
 		gbc_lbl.gridy = count;
 		panel.add(lbl, gbc_lbl);
 		
+		WebLabel warning = new WebLabel("Always begin each line with the amount");
+		warning.setForeground(Color.RED);
+		warning.setBounds(10, 453, 300, 14);
+		contentPane.add(warning);
+		
 		total = new WebLabel("");
 		total.setBounds(312, 453, 81, 14);
 		contentPane.add(total);
@@ -118,7 +132,7 @@ public class GUI extends WebFrame implements FocusListener, KeyListener{
     }
 	@Override
 	public void focusGained(FocusEvent e) {
-		CardData.getData(getCurrentTextField().getText(), getCurrentWebLabel(), this);
+		CardData.getData(getCurrentTextField().getText().substring(2), getCurrentWebLabel(), this);
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -153,8 +167,12 @@ public class GUI extends WebFrame implements FocusListener, KeyListener{
 			}
 		}
 		if(e.getKeyCode() == 10){
-			CardData.getData(getCurrentTextField().getText(), getCurrentWebLabel(), this);
+			CardData.getData(getCurrentTextField().getText().substring(2), getCurrentWebLabel(), this);
 		}
+	}
+	
+	public int getAmount(){
+		return Integer.parseInt(getCurrentTextField().getText().substring(0, 1));
 	}
 	
 	private WebTextField getCurrentTextField() {
@@ -162,6 +180,7 @@ public class GUI extends WebFrame implements FocusListener, KeyListener{
 			return (WebTextField) this.getFocusOwner();
 		else return null;
 	}
+	
 	private WebLabel getCurrentWebLabel() {
 		String name = this.getFocusOwner().getName();
 		if(name != null)

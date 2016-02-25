@@ -12,7 +12,7 @@ public class Main {
 				try {
 					GUI frame = new GUI();
 					frame.setVisible(true);
-					CardData.getData("endbringer", GUI.lbl, frame);
+					//CardData.getData("1 endbringer", GUI.lbl, frame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
