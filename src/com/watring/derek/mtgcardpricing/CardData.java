@@ -22,18 +22,19 @@ public class CardData {
 		//SET THE PRICE
 		int amount = frame.getAmount();
 		updatePrice(amount, lblNew, dataHTML);
-		GUI.total.setText(frame.getTotal());
+		GUI.total.setText(Arithmetic.getTotal(frame));
 	}
 	
 	static void updatePrice(int amount, WebLabel lblNew, Element dataHTML){
 		Double price = null;
 		try{
 			price = Double.parseDouble(dataHTML.text().substring(1));
-			price = price * amount;
+			price = price * amount * (double)GUI.multiplier.getValue();
 		}catch(NullPointerException e){
 			System.out.println("Blank");
 		}
-		String output = "$"+Double.toString(price);
+		System.out.println(price);
+		String output = "$"+Arithmetic.round(price);
 		lblNew.setText(output);
 	}
 	

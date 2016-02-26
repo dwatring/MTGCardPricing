@@ -3,6 +3,7 @@ package com.watring.derek.mtgcardpricing;
 import java.awt.EventQueue;
 
 public class Main {
+	static QueryList primaryList = new QueryList();
 	/**
 	 * Launch the application.
 	 */
@@ -12,7 +13,6 @@ public class Main {
 				try {
 					GUI frame = new GUI();
 					frame.setVisible(true);
-					//CardData.getData("1 endbringer", GUI.lbl, frame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
