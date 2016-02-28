@@ -1,5 +1,5 @@
 # MTG Card Pricing App
-Desktop application for searching MTG card prices.
+Desktop application for searching MTG card prices. I created this application for my local gaming store, [XtremeGames](http://www.xtremegamesonline.com/). I noticed they were entering card information in one-at-a-time on the TCGPlayer website to obtain price information, and then mutliplying that by their buy-ratio of 60%. I wanted to create an application that would speed up the process. Entering data is quick and intuitive, and the total/each card cost is multiplied by the current multiplier.
 
 ![Example GIF](https://i.gyazo.com/7b0a3be55b6715904303914b4dd6431f.gif)
 
