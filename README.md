@@ -10,6 +10,7 @@ Coming soon!
 * `Multiple Sources` : Get pricing data from ChannelFireball, TCGPlayer, and SCG. (Coming Soon)
 * `Strong Search` : Search for foil versions, and specific printings of any card.
 * `Import Ready` : Already have a digital list? Import it by placing the list in input.txt and clicking the read button.
+* `Fast!` : Entering data / reading existing data is much faster than using currently popular pricing websites.
 
 ### Dependencies
 * `WebLaF` : [WebLaF](http://weblookandfeel.com/) for the swing GUI look and feel.
