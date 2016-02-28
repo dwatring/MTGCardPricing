@@ -1,21 +1,28 @@
 package com.watring.derek.mtgcardpricing;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Query {
+	public int pos;
 	public double cost;
-	public String name;
+	public int amount;
 	public String cardQuery;
 	public Image img;
-	public int amount;
-	public Query next;
 	
 	Query(QueryList list){
+		File location = new File("Back.jpg");
+		try {
+			BufferedImage temp = ImageIO.read(location);
+			setImg(temp.getScaledInstance(265, 370, 1));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		list.addQuery(this);
-	}
-	
-	void setAmount(int amountInput){
-		amount = amountInput;
 	}
 	
 	void setImg(Image imgInput){
@@ -24,9 +31,5 @@ public class Query {
 	
 	void setCost(double costInput){
 		cost = costInput;
-	}
-	
-	void setName(String nameInput){
-		name = nameInput;
 	}
 }
