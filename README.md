@@ -1,7 +1,7 @@
 # MTG Card Pricing App
 Desktop application for searching MTG card prices.
 
-[!Example GIF](https://i.gyazo.com/7b0a3be55b6715904303914b4dd6431f.gif)
+![Example GIF](https://i.gyazo.com/7b0a3be55b6715904303914b4dd6431f.gif)
 
 [Windows64 Executable]()
 Coming soon!
