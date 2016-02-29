@@ -10,6 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import com.alee.laf.label.WebLabel;
+import com.alee.laf.text.WebTextField;
 
 public class CardData {
 	//this file will get all card data from JSON
@@ -43,10 +44,11 @@ public class CardData {
 		}
 		
 		query.setImg(imgNew.getScaledInstance(265, 370, 1));
+		GUI.img.setImage(query.img);
 		
 		//SET THE PRICE
 		WebLabel lblNew = (WebLabel) frame.getComponentByName(query.pos + " label");
-		frame.setQueryAmount(query);
+		query.amount = Integer.parseInt(((WebTextField) frame.getComponentByName(String.valueOf(query.pos))).getText().substring(0, 2).trim());
 		Double price = null;
 		try{
 			price = Double.parseDouble(dataHTML.text().substring(1));
@@ -57,6 +59,7 @@ public class CardData {
 		String output = "$"+Rounding.round(price);
 		query.cost = Rounding.roundDouble(price);
 		lblNew.setText(output);
+		GUI.total.setText("Total: $"+Rounding.roundDouble(frame.getTotal()));
 	}
 	
 }

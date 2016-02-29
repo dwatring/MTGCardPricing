@@ -14,6 +14,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
@@ -61,10 +66,6 @@ public class GUI extends WebFrame implements KeyListener, ChangeListener, FocusL
 		createComponentMap();
 	}
 	
-	public void setQueryAmount(Query query){
-		query.amount = Integer.parseInt(getCurrentTextField().getText().substring(0, 2).trim());
-	}
-	
 	int getCurrentTextFieldName() {
 		if(this.getFocusOwner().getName() != null)
 			return Integer.parseInt(this.getFocusOwner().getName());
@@ -109,10 +110,10 @@ public class GUI extends WebFrame implements KeyListener, ChangeListener, FocusL
 	
 	void clear(){
 		panel.removeAll();
-		count = 0;
-		Main.primaryList = null;
+		count = -1;
 		Main.primaryList = new QueryList();
-		createNewRow();
+		Query newQuery = new Query(Main.primaryList);
+		createNewRow(newQuery);
 	    total.setText("Total: $0.00");
 	}
 	
@@ -121,6 +122,7 @@ public class GUI extends WebFrame implements KeyListener, ChangeListener, FocusL
 	}
 	
 	void update(){
+		System.out.println(getCurrentTextFieldName());
 		Query query = Main.primaryList.list[getCurrentTextFieldName()];
 		setImage(query.img);
 	}
@@ -152,10 +154,8 @@ public class GUI extends WebFrame implements KeyListener, ChangeListener, FocusL
 		Query query = Main.primaryList.list[Integer.parseInt(curr.getName())];
 		if(e.getKeyCode() == 9){
 			if(query.pos == count){
-		        count++;
-		        createNewRow();
-			    createComponentMap();
-			    this.revalidate();
+				Query newQuery = new Query(Main.primaryList);
+		        createNewRow(newQuery);
 			}
 		}
 		if(e.getKeyCode() == 10){
@@ -167,6 +167,33 @@ public class GUI extends WebFrame implements KeyListener, ChangeListener, FocusL
 			img.setImage(query.img);
 			total.setText("Total: $"+Rounding.roundDouble(getTotal()));
 		}
+	}
+	
+	private void getInputFromFile() {
+		File inputFile = new File("Input.txt");
+		BufferedReader br = null;
+		String line;
+		try {
+			br = new BufferedReader(new FileReader(inputFile));
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			while((line = br.readLine()) != null){
+			Query newQuery = new Query(Main.primaryList);
+			WebTextField textField = createNewRow(newQuery);
+			textField.setText(line);
+			newQuery.cardQuery = textField.getText().substring(2).trim();
+			CardData.getData(newQuery, this);
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		createComponentMap();
+	    this.revalidate();
 	}
 	
 	void initializeGUI(){
@@ -260,7 +287,7 @@ public class GUI extends WebFrame implements KeyListener, ChangeListener, FocusL
 				readFromFileButton = new WebButton("Read");
 				readFromFileButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//getInputFromFile();
+						getInputFromFile();
 					}
 				});
 				readFromFileButton.setBounds(490, 427, 100, 23);
@@ -279,10 +306,11 @@ public class GUI extends WebFrame implements KeyListener, ChangeListener, FocusL
 	}
 	
 	
-	void createNewRow(){
+	WebTextField createNewRow(Query query){
+        count++;
+        
         //CREATE NEW TEXTFIELD
         WebTextField textFieldNew = new WebTextField();
-		Query query = new Query(Main.primaryList);
 		Dimension size = new Dimension(0, 27);
 		textFieldNew.setPreferredSize(size);
 		GridBagConstraints gbc_textFieldNew = new GridBagConstraints();
@@ -312,6 +340,7 @@ public class GUI extends WebFrame implements KeyListener, ChangeListener, FocusL
 	    img.setImage(query.img);
 	    this.revalidate();
 	    this.repaint();
+	    return textFieldNew;
 	}
 	
 	@Override
